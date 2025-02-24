@@ -133,7 +133,8 @@
               <td>{{row.4}}</td>
               <td>
                 <button type="submit" class="btn btn-sm btn-primary edit" id="{{row.0}}">Update</button>
-                <a href="delete/{{row.0}}" class="btn btn-sm btn-primary">Delete</a>
+<!--                <a href="delete/{{row.0}}" class="btn btn-sm btn-primary" onclick="confirm('Are you sure you want to delete?')">Delete</a>-->
+                <button type="submit" class="btn btn-sm btn-danger delete" id="{{row.0}}">Delete</button>
               </td>
             </tr>
           {% endfor %}
@@ -172,6 +173,16 @@
         })
       })
 
+      deletes = document.getElementsByClassName('delete');
+      Array.from(deletes).forEach((element) => {
+        element.addEventListener('click',(e) => {
+          if(confirm('Are you sure you want to delete?'))
+          {
+            id = e.target.id;
+            window.location.href = '/delete/' + id;
+          }
+        })
+      })
     </script>
 
   </body>
