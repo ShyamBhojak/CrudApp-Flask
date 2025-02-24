@@ -68,6 +68,15 @@ def update():
 
     return redirect(url_for('index'))
 
+@app.route('/delete/<string:id>', methods=['GET'])
+
+cursor.execute('SELCT `id` FROM `students`')
+ids = [id[0] for id in cursor]
+
+def delete(id):
+    print(ids)
+    return redirect(url_for('index'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
