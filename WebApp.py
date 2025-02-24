@@ -68,13 +68,22 @@ def update():
 
     return redirect(url_for('index'))
 
-@app.route('/delete/<string:id>', methods=['GET'])
 
-cursor.execute('SELCT `id` FROM `students`')
+cursor.execute('SELECT `id` FROM `students`')
 ids = [id[0] for id in cursor]
 
+@app.route('/delete/<string:id>', methods=['GET'])
 def delete(id):
-    print(ids)
+    try:
+        if int(id) in ids:
+            query = 'DELETE FROM `students` WHERE `id` = %s'
+            cursor.execute(query,id)
+            connection.commit()
+            flash(f"Record at id {id} deleted successfully!")
+        else:
+            raise pymysql.err.IntegrityError(f"No record found at id {id}")
+    except pymysql.err.IntegrityError as p:
+        print(p)
     return redirect(url_for('index'))
 
 
